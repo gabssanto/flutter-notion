@@ -3,7 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:orgnz/widgets/Paragraph.dart';
 
 class BlankPage extends StatefulWidget {
-  BlankPage();
+  final _children = [
+    Paragraph(controller: new TextEditingController(), focus: new FocusNode())
+  ];
+  var removalIndex = 0;
 
   @override
   _BlankPageState createState() => new _BlankPageState();
@@ -11,27 +14,57 @@ class BlankPage extends StatefulWidget {
 
 class _BlankPageState extends State<BlankPage> {
   FocusNode _textNode = new FocusNode();
-  final _children = [new TextEditingController()];
+  // TODO add a custom focus tag
 
   @override
   initState() {
+    /* _textNode.addListener(() {
+      print(FocusScope.of(context).focusedChild);
+    }); */
     super.initState();
   }
 
   handleKey(key) {
     if (key.runtimeType == RawKeyDownEvent) {
-      print(key.data.keyLabel);
+      /* print(key.data.keyLabel); */
+
+      if (key.data.keyLabel == 'ArrowUp') print('errou');
       if (key.data.keyLabel == 'Enter') {
         setState(() {
-          _children.add(new TextEditingController());
+          for (var i = 0; i < widget._children.length; i++) {
+            if (FocusScope.of(context).focusedChild ==
+                widget._children[i].focus) {
+              widget._children.insert(
+                  i + 1,
+                  Paragraph(
+                      controller: new TextEditingController(),
+                      focus: new FocusNode()));
+              widget._children[i + 1].focus.requestFocus();
+            }
+          }
+          /* _children.add(Paragraph(
+              controller: new TextEditingController(), focus: new FocusNode())); */
         });
       }
     }
     if (key.runtimeType == RawKeyUpEvent) {
-      if (key.data.keyLabel == 'Enter') {
-        final node = FocusScope.of(context);
-        for (var i = 0; i < _children.length; i++) {
-          node.nextFocus();
+      if (key.data.keyLabel == 'Backspace' && widget._children.length > 1) {
+        for (var i = 0; i < widget._children.length; i++) {
+          if (FocusScope.of(context).focusedChild ==
+              widget._children[i].focus) {
+            /* print('focusScope: ${FocusScope.of(context).focusedChild}');
+              print('child: ${widget._children[i].focus}'); */
+            if (widget._children[i].controller.text.length == 0) {
+              setState(() {
+                widget._children.removeAt(i);
+                widget.removalIndex = i;
+              });
+              /* _children[i - 1].focus.previousFocus(); */
+              /* _children.removeAt(i); */
+              /* _children[i - 1].focus.requestFocus(); */
+              /* _children[i - 2].focus.requestFocus(); */
+            }
+          }
         }
       }
     }
@@ -45,9 +78,9 @@ class _BlankPageState extends State<BlankPage> {
         onKey: (RawKeyEvent key) => handleKey(key),
         child: SingleChildScrollView(
           child: Column(
-            children: _children.map((ctrl) {
-              if (ctrl.text.length == 0) print('cu');
-              return Paragraph(controller: ctrl);
+            children: widget._children.map((child) {
+              /* if (_controller.text.length == 0) print('empty'); */
+              return child;
             }).toList(),
           ),
         ));
