@@ -15,6 +15,7 @@ class _ParagraphState extends State<Paragraph> {
   /* final myController = TextEditingController(); */
 
   _printLatestValue() {
+    // print(widget.controller.isSelectionWithinTextBounds(widget.controller.selection));
     if (widget.controller.text.contains('\n')) {
       widget.controller.text = widget.controller.text.replaceAll('\n', '');
       /* widget.focus.unfocus(); */
@@ -51,6 +52,7 @@ class _ParagraphState extends State<Paragraph> {
           FilteringTextInputFormatter.deny('\n'),
         ],
         controller: widget.controller,
+
         focusNode: widget.focus,
         autofocus: false,
         maxLines: null,

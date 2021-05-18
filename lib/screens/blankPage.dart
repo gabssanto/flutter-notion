@@ -12,10 +12,23 @@ class _BlankPageState extends State<BlankPage> {
   final _children = [
     Paragraph(),
   ];
+  var canDelete = false;
 
 
   handleKey(key) {
     if (key.runtimeType == RawKeyDownEvent) {
+      if (key.data.keyLabel == 'Backspace') setState(() {
+        for (var i = 0; i < _children.length; i++) {
+          // print(_children[i].controller.text);
+          if (i != 0
+              && FocusScope.of(context).focusedChild == _children[i].focus
+              && _children[i].controller.text.length == 0) {
+            setState(() {
+              canDelete = true;
+            });
+          }
+        }
+      });
       // print(key.data.keyLabel);
       if (key.data.keyLabel == 'Enter') setState(() {
         for (var i = 0; i < _children.length; i++) {
@@ -29,9 +42,17 @@ class _BlankPageState extends State<BlankPage> {
     if (key.runtimeType == RawKeyUpEvent) {
       if (key.data.keyLabel == 'Backspace') setState(() {
         for (var i = 0; i < _children.length; i++) {
-          if (i != 0 && FocusScope.of(context).focusedChild == _children[i].focus) {
-            _children[i-1].focus.requestFocus();
-            _children.removeAt(i);
+          // print(_children[i].controller.text);
+          if (i != 0
+              && FocusScope.of(context).focusedChild == _children[i].focus
+              && _children[i].controller.text.length == 0) {
+            if (canDelete) {
+              _children[i-1].focus.requestFocus();
+              _children.removeAt(i);
+              setState(() {
+                canDelete = false;
+              });
+            }
           }
         }
       });
