@@ -10,29 +10,13 @@ class Paragraph extends StatefulWidget {
 }
 
 class _ParagraphState extends State<Paragraph> {
-  /* final FocusNode _focusNode = FocusNode(); */
-
-  /* final myController = TextEditingController(); */
-
-  _printLatestValue() {
-    // print(widget.controller.isSelectionWithinTextBounds(widget.controller.selection));
-    if (widget.controller.text.contains('\n')) {
-      widget.controller.text = widget.controller.text.replaceAll('\n', '');
-      /* widget.focus.unfocus(); */
-      /* widget.focus.requestFocus();
-      widget.focus.ne(); */
-
-    }
-
-    /* print("Second text field: ${widget.controller.text}"); */
-  }
+  String dropdownValue = 'One';
 
   @override
   void initState() {
     super.initState();
-    /* widget.focus.requestFocus(); */
     // Start listening to changes.
-    widget.controller.addListener(_printLatestValue);
+    // widget.controller.addListener(_printLatestValue);
   }
 
   @override
@@ -45,26 +29,98 @@ class _ParagraphState extends State<Paragraph> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: TextField(
-        inputFormatters: <TextInputFormatter>[
-          FilteringTextInputFormatter.deny('\n'),
-        ],
-        controller: widget.controller,
+    return Row(
+      children: [
+        PopupMenuButton<String>(
+          icon: Icon(Icons.menu),
+          offset: Offset(0, 50),
+          onSelected: (value) {
+            switch (value) {
+              case 'H1':
+                break;
+              case 'p':
+                break;
+            }
+          },
+          itemBuilder: (BuildContext context) {
+            return {'H1', 'p'}.map((String choice) {
+              return PopupMenuItem<String>(
+                value: choice,
+                child: Text(choice),
+              );
+            }).toList();
+          },
+        ),
+        Flexible(
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: TextField(
+              cursorColor: Colors.black12,
+              style: TextStyle(
+                fontSize: 16,
+                height: 1.5
 
-        focusNode: widget.focus,
-        autofocus: false,
-        maxLines: null,
-        /* onSubmitted: (value) {
-          print('cu');
-          _focusNode.unfocus();
-        },
-        onEditingComplete: () {
-          print("edit");
-          _focusNode.unfocus();
-        }, */
-      ),
+              ),
+              inputFormatters: <TextInputFormatter>[
+                FilteringTextInputFormatter.deny('\n'),
+              ],
+              controller: widget.controller,
+              focusNode: widget.focus,
+              autofocus: false,
+              maxLines: null,
+            ),
+          ),
+        ),
+
+        // DropdownButton<String>(
+          // value: dropdownValue,
+          // iconSize: 24,
+          // elevation: 16,
+          // style: const TextStyle(color: Colors.deepPurple),
+          // underline: Container(
+          // height: 2,
+          // color: Colors.deepPurpleAccent,
+          // ),
+          // onChanged: (String? newValue) {
+          // setState(() {
+          // dropdownValue = newValue!;
+          // });
+          // },
+          // items: <String>['One', 'Two', 'Free', 'Four']
+          //     .map<DropdownMenuItem<String>>((String value) {
+          // return DropdownMenuItem<String>(
+          // value: value,
+          // child: Text(value),
+          // );
+          // }).toList(),
+          // )
+      ],
     );
   }
 }
+/*
+Positioned(
+          child: Padding(
+            padding: const EdgeInsets.only(top: 60, left: 10),
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(5),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 5,
+                    blurRadius: 7,
+                    offset: Offset(0, 3), // changes position of shadow
+                  ),
+                ],
+
+              ),
+              child: Padding(
+                padding: EdgeInsets.all(16),
+                child: Text('hello world'),
+              ),
+            ),
+          ),
+        ),
+ */

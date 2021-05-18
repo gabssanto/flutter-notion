@@ -17,7 +17,10 @@ class _BlankPageState extends State<BlankPage> {
 
   handleKey(key) {
     if (key.runtimeType == RawKeyDownEvent) {
-      if (key.data.keyLabel == 'Backspace') setState(() {
+      if (key.data.keyLabel == 'Escape' || key.logicalKey.keyLabel == 'Escape') {
+        print('hehe');
+      }
+      if (key.data.keyLabel == 'Backspace' || key.logicalKey.keyLabel == 'Backspace') setState(() {
         for (var i = 0; i < _children.length; i++) {
           // print(_children[i].controller.text);
           if (i != 0
@@ -29,8 +32,7 @@ class _BlankPageState extends State<BlankPage> {
           }
         }
       });
-      // print(key.data.keyLabel);
-      if (key.data.keyLabel == 'Enter') setState(() {
+      if (key.data.keyLabel == 'Enter' || key.logicalKey.keyLabel == 'Enter') setState(() {
         for (var i = 0; i < _children.length; i++) {
           if (FocusScope.of(context).focusedChild == _children[i].focus) {
             _children.insert(i + 1, Paragraph());
@@ -40,7 +42,7 @@ class _BlankPageState extends State<BlankPage> {
       });
     }
     if (key.runtimeType == RawKeyUpEvent) {
-      if (key.data.keyLabel == 'Backspace') setState(() {
+      if (key.data.keyLabel == 'Backspace' || key.logicalKey.keyLabel == 'Backspace') setState(() {
         for (var i = 0; i < _children.length; i++) {
           // print(_children[i].controller.text);
           if (i != 0
@@ -60,8 +62,13 @@ class _BlankPageState extends State<BlankPage> {
   }
 
   Widget _textBuilder () {
-    return Column(
-      children: _children,
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(32.0),
+        child: Column(
+          children: _children,
+        ),
+      ),
     );
   }
 
