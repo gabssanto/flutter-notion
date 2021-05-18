@@ -2,11 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class Paragraph extends StatefulWidget {
-  Paragraph({Key? key, required this.controller, required this.focus})
-      : super(key: key);
-
-  final TextEditingController controller;
-  final FocusNode focus;
+  final TextEditingController controller = new TextEditingController();
+  final FocusNode focus = new FocusNode();
 
   @override
   _ParagraphState createState() => _ParagraphState();
