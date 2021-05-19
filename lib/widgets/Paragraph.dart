@@ -31,26 +31,26 @@ class _ParagraphState extends State<Paragraph> {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        PopupMenuButton<String>(
-          icon: Icon(Icons.menu),
-          offset: Offset(0, 50),
-          onSelected: (value) {
-            switch (value) {
-              case 'H1':
-                break;
-              case 'p':
-                break;
-            }
-          },
-          itemBuilder: (BuildContext context) {
-            return {'H1', 'p'}.map((String choice) {
-              return PopupMenuItem<String>(
-                value: choice,
-                child: Text(choice),
-              );
-            }).toList();
-          },
-        ),
+        // PopupMenuButton<String>(
+        //   icon: Icon(Icons.menu),
+        //   offset: Offset(0, 50),
+        //   onSelected: (value) {
+        //     switch (value) {
+        //       case 'H1':
+        //         break;
+        //       case 'p':
+        //         break;
+        //     }
+        //   },
+        //   itemBuilder: (BuildContext context) {
+        //     return {'H1', 'p'}.map((String choice) {
+        //       return PopupMenuItem<String>(
+        //         value: choice,
+        //         child: Text(choice),
+        //       );
+        //     }).toList();
+        //   },
+        // ),
         Flexible(
           child: Padding(
             padding: const EdgeInsets.all(20.0),

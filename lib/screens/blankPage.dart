@@ -17,6 +17,23 @@ class _BlankPageState extends State<BlankPage> {
 
   handleKey(key) {
     if (key.runtimeType == RawKeyDownEvent) {
+      print(key.data.keyLabel);
+      // TODO: BUG textEditingController being used after disposed
+      // if (key.data.keyLabel == 'ArrowUp' || key.logicalKey.keyLabel == 'ArrowUp') setState(() {
+      //   for (var i = 0; i < _children.length; i++) {
+      //     if (i != 0 && FocusScope.of(context).focusedChild == _children[i].focus) {
+      //       _children[i-1].focus.requestFocus();
+      //     }
+      //   }
+      // });
+      // if (key.data.keyLabel == 'ArrowDown' || key.logicalKey.keyLabel == 'ArrowDown') setState(() {
+      //   final reversedChildren = _children.reversed.toList();
+      //   for (var i = 0; i < reversedChildren.length; i++) {
+      //     if (i != 0 && FocusScope.of(context).focusedChild == reversedChildren[i].focus) {
+      //       reversedChildren[i-1].focus.requestFocus();
+      //     }
+      //   }
+      // });
       if (key.data.keyLabel == 'Escape' || key.logicalKey.keyLabel == 'Escape') {
         print('hehe');
       }
@@ -49,9 +66,9 @@ class _BlankPageState extends State<BlankPage> {
               && FocusScope.of(context).focusedChild == _children[i].focus
               && _children[i].controller.text.length == 0) {
             if (canDelete) {
-              _children[i-1].focus.requestFocus();
-              _children.removeAt(i);
               setState(() {
+                _children[i-1].focus.requestFocus();
+                _children.removeAt(i);
                 canDelete = false;
               });
             }
