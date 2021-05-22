@@ -14,26 +14,31 @@ class _BlankPageState extends State<BlankPage> {
   ];
   var canDelete = false;
 
+  @override
+  void dispose() {
+    this.focusNode.dispose();
+    super.dispose();
+  }
 
   handleKey(key) {
     if (key.runtimeType == RawKeyDownEvent) {
-      print(key.data.keyLabel);
+      // print(key.data.keyLabel);
       // TODO: BUG textEditingController being used after disposed
-      // if (key.data.keyLabel == 'ArrowUp' || key.logicalKey.keyLabel == 'ArrowUp') setState(() {
-      //   for (var i = 0; i < _children.length; i++) {
-      //     if (i != 0 && FocusScope.of(context).focusedChild == _children[i].focus) {
-      //       _children[i-1].focus.requestFocus();
-      //     }
-      //   }
-      // });
-      // if (key.data.keyLabel == 'ArrowDown' || key.logicalKey.keyLabel == 'ArrowDown') setState(() {
-      //   final reversedChildren = _children.reversed.toList();
-      //   for (var i = 0; i < reversedChildren.length; i++) {
-      //     if (i != 0 && FocusScope.of(context).focusedChild == reversedChildren[i].focus) {
-      //       reversedChildren[i-1].focus.requestFocus();
-      //     }
-      //   }
-      // });
+      if (key.data.keyLabel == 'ArrowUp' || key.logicalKey.keyLabel == 'ArrowUp') setState(() {
+        for (var i = 0; i < _children.length; i++) {
+          if (i != 0 && FocusScope.of(context).focusedChild == _children[i].focus) {
+            _children[i-1].focus.requestFocus();
+          }
+        }
+      });
+      if (key.data.keyLabel == 'ArrowDown' || key.logicalKey.keyLabel == 'ArrowDown') setState(() {
+        final reversedChildren = _children.reversed.toList();
+        for (var i = 0; i < reversedChildren.length; i++) {
+          if (i != 0 && FocusScope.of(context).focusedChild == reversedChildren[i].focus) {
+            reversedChildren[i-1].focus.requestFocus();
+          }
+        }
+      });
       if (key.data.keyLabel == 'Escape' || key.logicalKey.keyLabel == 'Escape') {
         print('hehe');
       }
@@ -52,7 +57,7 @@ class _BlankPageState extends State<BlankPage> {
       if (key.data.keyLabel == 'Enter' || key.logicalKey.keyLabel == 'Enter') setState(() {
         for (var i = 0; i < _children.length; i++) {
           if (FocusScope.of(context).focusedChild == _children[i].focus) {
-            _children.insert(i + 1, Paragraph());
+            _children.insert(i + 1, new Paragraph());
             _children[i + 1].focus.requestFocus();
           }
         }

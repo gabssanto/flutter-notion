@@ -22,6 +22,7 @@ environment:
 
 dependencies:
   flutter_hooks: ^0.16.0
+  focused_menu: ^1.0.5
   flutter:
     sdk: flutter
 
