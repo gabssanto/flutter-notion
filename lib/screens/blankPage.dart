@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:orgnz/widgets/Paragraph.dart';
+import 'package:orgnz/widgets/TextBlock.dart';
 
 class BlankPage extends StatefulWidget {
   @override
@@ -10,9 +10,14 @@ class BlankPage extends StatefulWidget {
 class _BlankPageState extends State<BlankPage> {
   final focusNode = new FocusNode();
   final _children = [
-    Paragraph(),
+    TextBlock(),
   ];
   var canDelete = false;
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -39,9 +44,6 @@ class _BlankPageState extends State<BlankPage> {
           }
         }
       });
-      if (key.data.keyLabel == 'Escape' || key.logicalKey.keyLabel == 'Escape') {
-        print('hehe');
-      }
       if (key.data.keyLabel == 'Backspace' || key.logicalKey.keyLabel == 'Backspace') setState(() {
         for (var i = 0; i < _children.length; i++) {
           // print(_children[i].controller.text);
@@ -57,7 +59,7 @@ class _BlankPageState extends State<BlankPage> {
       if (key.data.keyLabel == 'Enter' || key.logicalKey.keyLabel == 'Enter') setState(() {
         for (var i = 0; i < _children.length; i++) {
           if (FocusScope.of(context).focusedChild == _children[i].focus) {
-            _children.insert(i + 1, new Paragraph());
+            _children.insert(i + 1, new TextBlock());
             _children[i + 1].focus.requestFocus();
           }
         }
@@ -86,7 +88,7 @@ class _BlankPageState extends State<BlankPage> {
   Widget _textBuilder () {
     return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.all(32.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           children: _children,
         ),
@@ -101,6 +103,10 @@ class _BlankPageState extends State<BlankPage> {
         onKey: (RawKeyEvent key) => handleKey(key),
         child: Scaffold(
           body: this._textBuilder(),
+          floatingActionButton: FloatingActionButton(
+            child: Icon(Icons.add),
+            onPressed: () {},
+          ),
         ));
   }
 }
